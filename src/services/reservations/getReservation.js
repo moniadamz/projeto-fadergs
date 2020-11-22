@@ -1,9 +1,9 @@
 const Reservation = require('../../../database/reservations');
 
-const getReservation = async (roomNumber) => {
+const getReservation = async (id) => {
     try { 
     const room = await Reservation.findOne({
-        roomNumber,
+        _id: id,
     });
 
     return room;
