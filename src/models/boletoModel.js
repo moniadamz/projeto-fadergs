@@ -3,7 +3,7 @@ const config = require('../../config/default');
 const boleto = (reference, amount, cpf, name) => {
     return {
         reference,
-        firstDueDate: '2020-11-21',
+        firstDueDate: '2020-12-15',
         numberOfPayments: '1',
         periodicity: 'monthly',
         amount,
