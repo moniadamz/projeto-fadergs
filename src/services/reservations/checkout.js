@@ -1,13 +1,13 @@
 const getRoom = require('../rooms/getRoom');
 const checkoutRoom = require('../rooms/checkoutRoom');
 
-const checkoutReservation = async (cleaning_status = null, roomNumber) => {
+const checkoutReservation = async (cleaningStatus = null, roomNumber) => {
     try {
         const room = await getRoom(roomNumber);
         if(!room) throw new Error('Room not found.');
         if(room.reservationStatus === 'available') throw new Error('Room is already available.');
 
-        const reservation = await checkoutRoom(room, cleaning_status);
+        const reservation = await checkoutRoom(room, cleaningStatus);
 
         return reservation;
     } catch (error) {

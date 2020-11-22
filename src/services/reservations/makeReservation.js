@@ -27,10 +27,10 @@ const createReservation = async (cpf, roomNumber, daysQty) => {
         const checkout = moment().add(daysQty, 'day');
 
         const room = new Reservation({
-            checkout_date: checkout,
-            checkin_date: today,
-            room_number: roomNumber,
-            payment_status: 'pending',
+            checkoutDate: checkout,
+            checkinDate: today,
+            roomNumber: roomNumber,
+            paymentStatus: 'pending',
             cpf
         });
         
