@@ -5,7 +5,6 @@ const config = require('../../../config/default');
 const sessionToken = require('../sessionToken');
 const models = require('../../models/creditCardTransactionModel');
 const parse = require('xml2json');
-const getRoom = require('../rooms/getRoom');
 const getReservation = require('../reservations/getReservation');
 
 const generateCreditCardToken = async (

@@ -1,6 +1,7 @@
 const axios = require('axios');
 const config = require('../../../config/default');
 const models = require('../../models/boletoModel');
+const getReservation = require('../reservations/getReservation');
 
 const generateBoleto = async (reference, amount, cpf, name) => {
     try {
@@ -21,15 +22,16 @@ const generateBoleto = async (reference, amount, cpf, name) => {
     }
 };
 
-const makePayment = async (roomNumber, reference, amount, cpf, name) => {
+const makePayment = async (reservationId, reference, amount, cpf, name) => {
     try {
-        const room = await getRoom(roomNumber);
-        if(!room) throw new Error('Room not found.');
+        const reservation = await getReservation(reservationId);
+        if(!reservation) throw new Error('Reservation not found.');
+        if(reservation.paymentStatus === 'paid') throw new Error('Reservation is already paid.');
 
         const payment = await generateBoleto(reference, amount, cpf, name);
         
-        room.paymentStatus = 'paid';
-        await room.save();
+        reservation.paymentStatus = 'paid';
+        await reservation.save();
 
         return payment;
     } catch (error) {
