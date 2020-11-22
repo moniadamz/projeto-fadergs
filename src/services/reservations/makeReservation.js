@@ -14,7 +14,8 @@ const makeReservation = async (cpf, roomNumber, daysQty) => {
         if(!client) throw new Error('Client not found.');
 
         const reservation = await createReservation(cpf, room.roomNumber, daysQty);
-
+        room.reservationStatus = 'unavailable';
+        room.save()
         return reservation;
     } catch (error) {
         throw error;
@@ -29,7 +30,7 @@ const createReservation = async (cpf, roomNumber, daysQty) => {
         const room = new Reservation({
             checkoutDate: checkout,
             checkinDate: today,
-            roomNumber: roomNumber,
+            roomNumber,
             paymentStatus: 'pending',
             cpf
         });
