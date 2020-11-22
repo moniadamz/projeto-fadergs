@@ -1,10 +1,11 @@
 const axios = require('axios');
 const qs = require('qs');
 
-const config = require('../../config/default');
-const sessionToken = require('./sessionToken');
-const models = require('../models/creditCardTransactionModel');
+const config = require('../../../config/default');
+const sessionToken = require('../sessionToken');
+const models = require('../../models/creditCardTransactionModel');
 const parse = require('xml2json');
+const getRoom = require('../rooms/getRoom');
 
 const generateCreditCardToken = async (
         amount,
@@ -71,4 +72,18 @@ const creditCardPayment = async (itemId, description, amount, reference, card, c
     }
 };
 
-module.exports = { creditCardPayment };
+const makePayment = async (roomNumber, itemId, description, amount, reference, card, clientCPF, clientName) => {
+    try {
+        const room = await getRoom(roomNumber);
+        if(!room) throw new Error('Room not found');
+
+        const payment = await creditCardPayment(itemId, description, amount, reference, card, clientCPF, clientName);
+        room.paymentStatus = 'paid';
+        await room.save();
+        return payment;
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports = { creditCardPayment, makePayment };

@@ -10,6 +10,8 @@ const config = {
     app_id: process.env.APP_ID,
     app_key: process.env.APP_KEY,
     client_email: process.env.CLIENT_EMAIL,
+    mongoURI: process.env.MONGO_URI,
+    database_name: process.env.DATABASE_NAME,
     services: {
         pagSeguro: {
             host: process.env.PAG_SEGURO_HOST,
