@@ -6,6 +6,7 @@ const sessionToken = require('../sessionToken');
 const models = require('../../models/creditCardTransactionModel');
 const parse = require('xml2json');
 const getRoom = require('../rooms/getRoom');
+const getReservation = require('../reservations/getReservation');
 
 const generateCreditCardToken = async (
         amount,
@@ -72,14 +73,15 @@ const creditCardPayment = async (itemId, description, amount, reference, card, c
     }
 };
 
-const makePayment = async (roomNumber, itemId, description, amount, reference, card, clientCPF, clientName) => {
+const makePayment = async (reservationId, itemId, description, amount, reference, card, clientCPF, clientName) => {
     try {
-        const room = await getRoom(roomNumber);
-        if(!room) throw new Error('Room not found');
+        const reservation = await getReservation(reservationId);
+        if(!reservation) throw new Error('Reservation not found');
+        if(reservation.paymentStatus === 'paid') throw new Error('Reservation is already paid.');
 
         const payment = await creditCardPayment(itemId, description, amount, reference, card, clientCPF, clientName);
-        room.paymentStatus = 'paid';
-        await room.save();
+        reservation.paymentStatus = 'paid';
+        await reservation.save();
         return payment;
     } catch (error) {
         throw error;
