@@ -5,6 +5,7 @@ const config = require('./config/default');
 const routes = require('./src/routes');
 require('dotenv').config();
 
+// const persist = require('./src/services/clients/persistClients');
 const app = express();
 const port = process.env.PORT || "8000";
 
@@ -17,5 +18,6 @@ const connectDb = () => {
 
 connectDb().then(async () => {
     app.listen(port, () => console.log(`App running on port ${port}`));
+    // await persist();
 }).catch((err) => console.log('ERRO', err));
 

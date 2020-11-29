@@ -20,6 +20,7 @@ const config = {
                 creditCardToken: process.env.PAG_SEGURO_RESOURCE_CREDIT_CARD_TOKEN,
                 sessionToken: process.env.PAG_SEGURO_RESOURCE_SESSION_TOKEN,
                 boleto: process.env.PAG_SEGURO_RESOURCE_BOLETO,
+                cancel: process.env.PAG_SEGURO_RESOURCE_CANCEL,
             }
         }
     }

@@ -6,6 +6,7 @@ const sessionToken = require('../sessionToken');
 const models = require('../../models/creditCardTransactionModel');
 const parse = require('xml2json');
 const getReservation = require('../reservations/getReservation');
+const Payment = require('../../../database/payments');
 
 const generateCreditCardToken = async (
         amount,
@@ -81,6 +82,7 @@ const makePayment = async (reservationId, itemId, description, amount, reference
         const payment = await creditCardPayment(itemId, description, amount, reference, card, clientCPF, clientName);
         reservation.paymentStatus = 'paid';
         await reservation.save();
+        await Payment.create({ reservationId, cpf: clientCPF, method: 'creditCard', paymentStatus: 'paid', paymentId: payment.transaction.code })
         return payment;
     } catch (error) {
         throw error;

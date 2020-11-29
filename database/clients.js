@@ -16,7 +16,7 @@ registerDate: {
  },
  dateOfBirth: {
     type: Date,
-    required: true
+    required: false
  },
  phone: {
     type: String,
